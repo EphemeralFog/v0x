@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.get("/{entry_id}/{filename}")
 async def download_file_route(entry_id: str, filename: str):
-    entry_id = decode_base62(entry_id)
+    entry_id = await decode_base62(entry_id)
     entry = await File.get_or_none(id=entry_id)
     if not entry:
         raise HTTPException(status_code=404, detail="File not found in the database.")

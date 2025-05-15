@@ -15,13 +15,13 @@ async def upload_file_route(file: UploadFile = File()):
         raise HTTPException(status_code=413, detail="File size exceeds the 2 GB limit.")
 
     file_id = await upload_to_telegram(file, content)
-
+    print(file_id)
     if file_id:
         file_model = await FileModel.create(
             file_id=file_id,
             file_name=file.filename,
         )
-        model_id = encode_base62(file_model.id)
+        model_id = await encode_base62(file_model.id)
         return f'http://127.0.0.1:8080/{model_id}/{file.filename}'
     else:
         raise HTTPException(status_code=500, detail="Failed to upload file to Telegram or unexpected response.") 
