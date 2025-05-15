@@ -28,6 +28,13 @@ app.include_router(upload.router, prefix="", tags=["upload"])
 app.include_router(download.router, prefix="", tags=["download"])
 app.include_router(home.router, prefix="", tags=["home"])
 
+from tortoise import Tortoise
+
+Tortoise.init(
+    db_url=settings.DB_URI,  # Database URL
+    modules={"models": ["src.database.models"]},  # Add your models here
+)
+
 register_tortoise(
     app,
     db_url=settings.DB_URI,  # Database URL

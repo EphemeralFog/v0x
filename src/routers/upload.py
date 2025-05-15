@@ -16,15 +16,11 @@ async def upload_file_route(file: UploadFile = File()):
 
     file_id = await upload_to_telegram(file, content)
     if file_id:
-        print('doing tortoise shit')
-        try:
-            file_model = await FileModel.create(
-                file_id=file_id,
-                file_name=file.filename,
-            )
-        except Exception as e: print(e)
+        file_model = await FileModel.create(
+            file_id=file_id,
+            file_name=file.filename,
+        )
 
-        print('finished tortoise shit')
         model_id = await encode_base62(file_model.id)
         return f'http://127.0.0.1:8080/{model_id}/{file.filename}'
     else:
