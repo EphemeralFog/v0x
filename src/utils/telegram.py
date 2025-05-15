@@ -35,7 +35,7 @@ async def download_from_telegram(message_id: str, filename: str):
                 response_text = await response.text()
                 return {"error": f"Failed to fetch file from Telegram. Status code: {response.status}, Response: {response_text}"}
 
-        async with session.get(f"https://api.telegram.org/file/bot{settings.TELEGRAM_BOT_TOKEN}/{file_path}") as file_response:
+        async with session.get(f"{settings.TELEGRAM_API_URL_BASE}/{file_path}") as file_response:
             if file_response.status == 200:
                 file_content = await file_response.read()
                 return StreamingResponse(
