@@ -9,6 +9,7 @@ class Settings(BaseSettings, env_file=".env"):
     DB_URI: str
     LOG_TO_FILE: bool = True
     API_BASE_URL: str = "https://api.telegram.org"
+    
     @computed_field
     @property
     def TELEGRAM_API_URL_BASE(self) -> str:

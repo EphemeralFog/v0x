@@ -22,6 +22,6 @@ async def upload_file_route(file: UploadFile = File()):
         )
 
         model_id = await encode_base62(file_model.id)
-        return f'http://127.0.0.1:8080/{model_id}/{file.filename}'
+        return f'https://v0x.liara.run/{model_id}/{file.filename}'
     else:
         raise HTTPException(status_code=500, detail="Failed to upload file to Telegram or unexpected response.") 

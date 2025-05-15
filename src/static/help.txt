@@ -1,2 +1,2 @@
 Example:
-    curl -F "file=@file.txt" https://v0x-uploads.vercel.app
+    curl -F "file=@file.txt" https://v0x.liara.run
