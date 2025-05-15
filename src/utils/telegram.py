@@ -18,8 +18,10 @@ async def upload_to_telegram(file: UploadFile, content: bytes):
                 if "result" in result and "document" in result["result"]:
                     return result["result"]["document"]["file_id"]
                 else:
+                    print(result)
                     return None
             else:
+                print(response.status)
                 return None
 
 async def download_from_telegram(message_id: str, filename: str):
