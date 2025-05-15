@@ -13,6 +13,20 @@ from src.core.logger import InterceptHandler
 
 app = FastAPI()
 
+async def init_db():
+    """Initialize Tortoise ORM."""
+    register_tortoise(
+        app,
+        db_url=settings.DB_URI,
+        modules={"models": ["src.database.models"]},
+        generate_schemas=True,
+        add_exception_handlers=True,
+    )
+
+@app.on_event("startup")
+async def startup_event():
+    await init_db()
+
 app.mount("/s", StaticFiles(directory="src/static"), name="static")
 
 app.add_middleware(
@@ -27,21 +41,6 @@ app.add_middleware(
 app.include_router(upload.router, prefix="", tags=["upload"])
 app.include_router(download.router, prefix="", tags=["download"])
 app.include_router(home.router, prefix="", tags=["home"])
-
-from tortoise import Tortoise
-
-Tortoise.init(
-    db_url=settings.DB_URI,  # Database URL
-    modules={"models": ["src.database.models"]},  # Add your models here
-)
-
-register_tortoise(
-    app,
-    db_url=settings.DB_URI,  # Database URL
-    modules={"models": ["src.database.models"]},  # Add your models here
-    generate_schemas=True,  # Automatically generate database schema
-    add_exception_handlers=True,
-)
 
 logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
 
