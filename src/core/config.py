@@ -8,10 +8,10 @@ class Settings(BaseSettings, env_file=".env"):
     PORT: int = 8080
     DB_URI: str
     LOG_TO_FILE: bool = True
-    
+    API_BASE_URL: str = "https://api.telegram.org"
     @computed_field
     @property
     def TELEGRAM_API_URL_BASE(self) -> str:
-        return f"https://api.telegram.org/bot{self.TELEGRAM_BOT_TOKEN}"
+        return f"{self.API_BASE_URL}/bot{self.TELEGRAM_BOT_TOKEN}"
 
 settings = Settings() 

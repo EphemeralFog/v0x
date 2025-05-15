@@ -13,19 +13,13 @@ from src.core.logger import InterceptHandler
 
 app = FastAPI()
 
-async def init_db():
-    """Initialize Tortoise ORM."""
-    register_tortoise(
-        app,
-        db_url=settings.DB_URI,
-        modules={"models": ["src.database.models"]},
-        generate_schemas=True,
-        add_exception_handlers=True,
-    )
-
-@app.on_event("startup")
-async def startup_event():
-    await init_db()
+register_tortoise(
+    app,
+    db_url=settings.DB_URI,
+    modules={"models": ["src.database.models"]},
+    generate_schemas=True,
+    add_exception_handlers=True,
+)
 
 app.mount("/s", StaticFiles(directory="src/static"), name="static")
 
