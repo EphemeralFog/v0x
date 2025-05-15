@@ -3,6 +3,8 @@ import logging
 
 from loguru import logger
 
+from .config import settings
+
 logger.remove()
 
 logger.add(
@@ -12,17 +14,18 @@ logger.add(
     colorize=True
 )
 
-logger.add(
-    "logs/app.log",
-    level="DEBUG",
-    format="{level.icon} {time:YYYY-MM-DD HH:mm:ss.SSS} | {level:^7} | {name}:{function}:{line} | {message}",
-    rotation="1 MB",  # Rotate after 1 MB
-    retention="1 day",  # Keep logs for 1 day
-    compression="zip",  # Compress rotated files
-    enqueue=True,  # Asynchronous logging
-    backtrace=True,
-    diagnose=True
-)
+if settings.LOG_TO_FILE:
+    logger.add(
+        "logs/app.log",
+        level="DEBUG",
+        format="{level.icon} {time:YYYY-MM-DD HH:mm:ss.SSS} | {level:^7} | {name}:{function}:{line} | {message}",
+        rotation="1 MB",  # Rotate after 1 MB
+        retention="1 day",  # Keep logs for 1 day
+        compression="zip",  # Compress rotated files
+        enqueue=True,  # Asynchronous logging
+        backtrace=True,
+        diagnose=True
+    )
 
 # Intercept standard logging
 class InterceptHandler(logging.Handler):

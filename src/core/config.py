@@ -7,6 +7,7 @@ class Settings(BaseSettings, env_file=".env"):
     MAX_SIZE: int = 2 * 1024 * 1024 * 1024  # 2 GB
     PORT: int = 8080
     DB_URI: str
+    LOG_TO_FILE: bool = True
     
     @computed_field
     @property
