@@ -14,5 +14,11 @@ class Settings(BaseSettings, env_file=".env"):
     @property
     def TELEGRAM_API_URL_BASE(self) -> str:
         return f"{self.API_BASE_URL}/bot{self.TELEGRAM_BOT_TOKEN}"
+    
+    @computed_field
+    @property
+    def TELEGRAM_FILE_URL_BASE(self) -> str:
+        return f"{self.API_BASE_URL}/file/bot{self.TELEGRAM_BOT_TOKEN}"
+
 
 settings = Settings() 

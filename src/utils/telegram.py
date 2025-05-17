@@ -22,20 +22,20 @@ async def upload_to_telegram(file: UploadFile, content: bytes):
             else:
                 return None
 
-async def download_from_telegram(message_id: str, filename: str):
+async def download_from_telegram(file_id: str, filename: str):
     async with aiohttp.ClientSession() as session:
-        async with session.get(f"{settings.TELEGRAM_API_URL_BASE}/getFile?file_id={message_id}") as response:
+        async with session.get(f"{settings.TELEGRAM_API_URL_BASE}/getFile?file_id={file_id}") as response:
             if response.status == 200:
                 file_info = await response.json()
                 if "result" in file_info and "file_path" in file_info["result"]:
                     file_path = file_info["result"]["file_path"]
                 else:
-                    return {"error": "Failed to retrieve file information from Telegram."}
+                    return {"error": "File path not found in Telegram's response."}
             else:
                 response_text = await response.text()
                 return {"error": f"Failed to fetch file from Telegram. Status code: {response.status}, Response: {response_text}"}
 
-        async with session.get(f"{settings.TELEGRAM_API_URL_BASE}/{file_path}") as file_response:
+        async with session.get(f"{settings.TELEGRAM_FILE_URL_BASE}/{file_path}") as file_response:
             if file_response.status == 200:
                 file_content = await file_response.read()
                 return StreamingResponse(
@@ -45,4 +45,4 @@ async def download_from_telegram(message_id: str, filename: str):
                 )
             else:
                 response_text = await file_response.text()
-                return {"error": f"Failed to download file from Telegram. Status code: {file_response.status}, Response: {response_text}"} 
+                return {"error": f"Failed to download file from Telegram. Status code: {file_response.status}, Response: {response_text}"}
