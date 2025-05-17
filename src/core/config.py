@@ -6,8 +6,10 @@ class Settings(BaseSettings, env_file=".env"):
     TELEGRAM_CHAT_ID: str
     MAX_SIZE: int = 2 * 1024 * 1024 * 1024  # 2 GB
     PORT: int = 8080
+    HOSTNAME: str = 'http://localhost'
     DB_URI: str
     LOG_TO_FILE: bool = True
+    
     API_BASE_URL: str = "https://api.telegram.org"
     
     @computed_field
