@@ -6,7 +6,7 @@ class Settings(BaseSettings, env_file=".env"):
     TELEGRAM_CHAT_ID: str
     MAX_SIZE: int = 2 * 1024 * 1024 * 1024  # 2 GB
     PORT: int = 8080
-    HOSTNAME: str = 'http://localhost'
+    HOST_URL: str = 'http://localhost'
     DB_URI: str
     LOG_TO_FILE: bool = True
     
